@@ -56,13 +56,13 @@ fn check_file_type(){
         // basically just loop over the dir and
         // updating the path to the file  then matching for the
         // metadata of the file since we now have the total path
-        let path = Path::new(file);
-        match fs::metadata(path) {
+        // let path = Path::new(file);
+        match fs::metadata(file) {
             Ok(metadata) => {
              if metadata.is_dir() {
-                  println!("This is a directory {}  ", path.display());
+                  println!("This is a directory {}  ", file);
              } else {
-                    println!("This is a file {} ", path.display());
+                    println!("This is a file {} ", file);
                 }
             }
             Err(error) => {
