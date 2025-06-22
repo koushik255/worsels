@@ -1,6 +1,7 @@
 use clap::{command,Arg};
 use std::fs;
 use std::io;
+use std::path::{Path,PathBuf};
 
 fn input() -> String {
     let matches = command!()
@@ -26,25 +27,49 @@ fn match_and_check(input: Option<String>) {
 }
 
 
+
+
 fn list_files() -> io::Result<Vec<String>> {
     fs::read_dir(".")?
         .map(|res|res.map(|entry|entry.path().display().to_string()))
         .collect()
 }
 
-fn read_dir() {
+// fn read_dir() {
+//     let files = list_files().unwrap();
+//     for file in files.iter() {
+//         match file.as_str() {
+//             f if f.ends_with("src") => {
+//                 println!("Found lock file: {}", f);
+//             }
+//             _ => {
+//                 println!("rest of files  {}", file)
+//             }
+//         }
+//     }
+// }
+
+fn check_file_type(){
     let files = list_files().unwrap();
+
     for file in files.iter() {
-        match file.as_str() {
-            f if f.ends_with("src") => {
-                println!("Found lock file: {}", f);
+        // basically just loop over the dir and
+        // updating the path to the file  then matching for the
+        // metadata of the file since we now have the total path
+        let path = Path::new(file);
+        match fs::metadata(path) {
+            Ok(metadata) => {
+             if metadata.is_dir() {
+                  println!("This is a directory {}  ", path.display());
+             } else {
+                    println!("This is a file {} ", path.display());
+                }
             }
-            _ => {
-                println!("rest of files  {}", file)
-            }
+            Err(error) => {
+              println!("Error: {}", error);
+             }
         }
     }
-
 }
 
 
@@ -52,7 +77,8 @@ fn read_dir() {
 fn run() {
     let input = input();
     match_and_check(Some(input));
-    read_dir();
+    // read_dir();
+    check_file_type();
 }
 
 fn main() {
