@@ -40,11 +40,13 @@ pub fn check_file_type(){
         match fs::metadata(file) {
             Ok(metadata) => {
                 if metadata.is_dir() {
-                    println!("{}", format!("DIR -{}", file).blue());
+                    let size = metadata.len();
+                    println!("{}", format!("DIR- {} SIZE- {}", file,size).blue());
                 } else if metadata.is_symlink() {
                     println!("{}", format!("SYM{}",file).green());
                 } else {
-                    println!("{}", format!("FILE{}",file).red());
+                    let size = metadata.len();
+                    println!("{}", format!("FILE{} SIZE- {}",file,size).red());
                 }
             }
             Err(error) => {
@@ -56,6 +58,8 @@ pub fn check_file_type(){
 // if file is hidden (has a ./. and is a dir then its hidden
 // make it so you put a flag like --h and then it it will
 // show the hidden files
+
+// make it so the file size is also a flag 
 
 pub fn run() {
     let input = input();
