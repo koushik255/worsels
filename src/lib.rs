@@ -11,7 +11,6 @@ pub fn input() -> bool {
             .short('k')
             .long("force")
          .help("your help input")
-         .required(true)
          .action(clap::ArgAction::SetTrue),
     )
     .get_matches();
@@ -88,10 +87,14 @@ pub fn find_hid() {
 
 // to run use cargo run -- -k 
 //
-
+// make a match statement if the k flag is used then run a fuction with finds hidden if not just
+// normal file type check
 
 pub fn run() {
-    find_hid();
+    if input() {
+        find_hid();
+    }
+    
     
     check_file_type();
 }
