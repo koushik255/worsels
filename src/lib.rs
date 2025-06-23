@@ -66,14 +66,25 @@ pub fn find_hid() {
     };
 
     // dont use enumerate when filtering it fucks everythign up
+    
+    
     let hidden_files: Vec<&String> = files
         .iter()
         .filter(|file_path| file_path.contains("/.")) //
         .collect();
 
 
+    
     for file_path in hidden_files {
-        println!("HID {}", file_path);
+        match fs::metadata(file_path) {
+            Ok(metadata) => {
+                let size = metadata.len();
+                println!("{}", format!("HID {} SIZE- {}", file_path,size).bright_yellow());
+            }
+            Err(error) => {
+                println!("Error {}",error);
+            }
+        }
     }
 }
   
