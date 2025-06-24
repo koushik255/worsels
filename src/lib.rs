@@ -15,10 +15,7 @@ pub fn input() -> bool {
     )
     .get_matches();
 
-    let input = matches.get_flag("input");
-    input
-    
-
+    matches.get_flag("input")
 }
 
 
@@ -65,13 +62,15 @@ pub fn find_hid() {
         }
     };
 
+
+
     // dont use enumerate when filtering it fucks everythign up
     
     
     let hidden_files: Vec<&String> = files
         .iter()
         .filter(|file_path| file_path.contains("/.")) //
-        .collect();
+         .collect();
 
 
     
@@ -87,6 +86,10 @@ pub fn find_hid() {
         }
     }
 }
+
+
+
+ 
   
 // if file is hidden (has a ./. and is a dir then its hidden
 // make it so you put a flag like -h and then it it will
